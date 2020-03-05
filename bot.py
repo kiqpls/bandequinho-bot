@@ -21,7 +21,6 @@ class BandecoBot:
     """
 
     def __init__(self, meal_time, weekday):
-
         self.meal_time = meal_time
         self.weekday = weekday
         self.codes = {
@@ -35,22 +34,18 @@ class BandecoBot:
 
     @staticmethod
     def _get_credentials():
-
         keys = dict(consumer_key=os.environ['CONSUMER_KEY'],
                     consumer_secret=os.environ['CONSUMER_SECRET'],
                     access_token_key=os.environ['ACCESS_TOKEN_KEY'],
                     access_token_secret=os.environ['ACCESS_TOKEN_SECRET'])
-
         return keys
 
     def _get_bandeco_menu(self, name):
-
         code = self.codes[name]
         url = f'https://uspdigital.usp.br/rucard/Jsp/cardapioSAS.jsp?codrtn={code}'
         id_ = self.meal_time.lower() + self.weekday.lower().title()
         self.browser.get(url)
         delay = 5
-
         try:
             WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((By.ID, id_)))
             time.sleep(.5)  # Elements may took some time to load
@@ -59,21 +54,15 @@ class BandecoBot:
             raise TimeoutError('Element took to long to load.')
 
     def _get_payload(self):
-
         menus = [f"Cardápios {self.meal_time.replace('C', 'Ç')} / {self.weekday}(05/03/2020):"]
-
         for name in self.codes.keys():
             menu = name + ':\n\n' + self._get_bandeco_menu(name)
             menus.append(menu)
-
         self.browser.close()
-
         return menus
 
     def post_twitter_thread(self):
-
         payload = self._get_payload()
         th = Threader(payload, self.api, wait=2, end_string=False)
         th.send_tweets()
-
         return payload
