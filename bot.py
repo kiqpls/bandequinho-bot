@@ -5,12 +5,13 @@ import time
 from threader import Threader
 from TwitterAPI import TwitterAPI
 
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import TimeoutException
-from webdriver_manager.firefox import GeckoDriverManager
 
 
 class BandecoBot:
@@ -31,6 +32,9 @@ class BandecoBot:
             'Química': 9,
         }
         self.api = TwitterAPI(**self._get_twitter_credentials())
+
+        cap = DesiredCapabilities().FIREFOX
+        cap["marionette"] = False
         self.browser = Firefox(executable_path=GeckoDriverManager().install())
 
     @staticmethod
