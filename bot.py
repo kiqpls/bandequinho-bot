@@ -10,7 +10,6 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import TimeoutException
 
 
@@ -32,9 +31,6 @@ class BandecoBot:
             'Química': 9,
         }
         self.api = TwitterAPI(**self._get_twitter_credentials())
-
-        cap = DesiredCapabilities().FIREFOX
-        cap["marionette"] = False
         self.browser = Firefox(executable_path=GeckoDriverManager().install())
 
     @staticmethod
@@ -52,14 +48,13 @@ class BandecoBot:
         id_ = self.meal_time.replace('ç', 'c').lower() + \
               self.weekday.replace('á', 'a').replace('ç', 'c').lower().title()
 
-        self.id_ = id_
-
         self.browser.get(url)
         delay = 5
         try:
             WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((By.ID, id_)))
             time.sleep(.5)  # Elements may took some time to load
-            return self.browser.find_elements_by_id(id_)[0].text
+            content = self.browser.find_elements_by_id(id_)[0].text
+            return content.replace('Fechado', '')
         except TimeoutException:
             return ''
 
