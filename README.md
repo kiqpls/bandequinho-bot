@@ -2,7 +2,7 @@
 
 O bandequinho bot tem como objetivo informar os cardápios dos bandecos de forma automatizada em diversas plataformas
 diferentes. Em primeira instância as publicações serão realizadas no [twitter](https://twitter.com/bandequinhobot), mas
-o código está modularizado de maneira a ser fácil adicionar outraos lugares como o telegram. O bot realiza o scrapping 
+o código está modularizado de maneira a ser possível adicionar outros lugares como o telegram. O bot realiza o scrapping 
 deste site [aqui](https://uspdigital.usp.br/rucard/Jsp/cardapioSAS.jsp?codrtn=8) faz a publicação diariamente às 10h 
 para o almoço e às 16h para a janta dos cardápios dos campus USP butantã.
 
