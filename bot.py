@@ -58,7 +58,7 @@ class BandecoBot:
         delay = 5
         try:
             WebDriverWait(self.browser, delay).until(EC.presence_of_element_located((By.ID, id_)))
-            time.sleep(.5)  # Elements may took some time to load
+            time.sleep(2)  # Elements may took some time to load
             content = self.browser.find_elements_by_id(id_)[0].text
             return content.replace('Fechado', '')
         except TimeoutException:
