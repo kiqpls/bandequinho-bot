@@ -10,6 +10,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import TimeoutException
 
 
@@ -31,7 +32,7 @@ class BandecoBot:
             'Química': 9,
         }
         self.api = TwitterAPI(**self._get_twitter_credentials())
-        self.browser = Firefox(executable_path=GeckoDriverManager().install())
+        self._set_selenium_driver()
 
     @staticmethod
     def _get_twitter_credentials():
@@ -40,6 +41,11 @@ class BandecoBot:
                            access_token_key=os.environ['ACCESS_TOKEN'],
                            access_token_secret=os.environ['ACCESS_TOKEN_SECRET'])
         return credentials
+
+    def _set_selenium_driver(self):
+        options = Options()
+        options.add_argument("--headless")
+        self.browser = Firefox(options=options, executable_path=GeckoDriverManager().install())
 
     def _get_bandeco_menu(self, name):
         code = self.codes[name]
