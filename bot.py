@@ -27,8 +27,8 @@ class BandecoBot:
         self.date = date
         self.codes = {
             'Central': 6,
-            'Prefeitura': 7,
-            'Física': 8,
+            'Prefeitura/Física': 7,
+            'And thats the bottom line cause Stone Cold said so': 8,
             'Química': 9,
         }
         self.api = TwitterAPI(**self._get_twitter_credentials())
